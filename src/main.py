@@ -47,22 +47,22 @@ app = FastAPI(title=project_details['title'], description=project_details['descr
 
 LOG_FILE = settings.LOG_FILE
 log_config = uvicorn.config.LOGGING_CONFIG
-
-if not settings.otlp_enable:
-    logging.basicConfig(filename=LOG_FILE, level=settings.LOG_LEVEL,
+logging.basicConfig(filename=settings.LOG_FILE, level=settings.LOG_LEVEL,
                         format=settings.LOG_FORMAT)
+logging.info(f"------->>> {settings.to_dict()}")
+if settings.otlp_enable is False:
+    logging.info("Logging configured without OTLP")
 else:
+    logging.info("OTLP enabled")
     a_commons.set_otlp(app, APP_NAME, OTLP_GRPC_ENDPOINT, LOG_FILE, log_config)
 
 @app.exception_handler(StarletteHTTPException)
 async def custom_404_handler(request: Request, exc: StarletteHTTPException):
     if exc.status_code == 404:
-        logging.error(f"404 Not Found: {request.url}")
         return JSONResponse(
             status_code=404,
             content={"message": "Endpoint not found"}
         )
-    logging.error(f"HTTP Exception: {exc.status_code} - {exc.detail}")
     return JSONResponse(
         status_code=exc.status_code,
         content={"message": exc.detail}
