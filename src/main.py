@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+from typing import Annotated
 
 # Add the src directory to the Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -10,7 +11,7 @@ import uvicorn
 from akmi_utils import commons as a_commons
 from fastapi import FastAPI, HTTPException, Depends, status, Request
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.cors import CORSMiddleware
 from src.mts import protected, public
@@ -27,8 +28,8 @@ APP_NAME = os.environ.get("APP_NAME", project_details['title'])
 EXPOSE_PORT = os.environ.get("EXPOSE_PORT", 1745)
 OTLP_GRPC_ENDPOINT = os.environ.get("OTLP_GRPC_ENDPOINT", "http://localhost:4317")
 
-def api_key_auth(api_key: str = Depends(security)):
-    if api_key not in api_keys:
+def api_key_auth(auth_cred: Annotated[HTTPAuthorizationCredentials, Depends(security)]):
+    if not auth_cred or auth_cred.credentials not in api_keys:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Forbidden"
@@ -49,7 +50,6 @@ LOG_FILE = settings.LOG_FILE
 log_config = uvicorn.config.LOGGING_CONFIG
 logging.basicConfig(filename=settings.LOG_FILE, level=settings.LOG_LEVEL,
                         format=settings.LOG_FORMAT)
-logging.info(f"------->>> {settings.to_dict()}")
 if settings.otlp_enable is False:
     logging.info("Logging configured without OTLP")
 else:
@@ -89,5 +89,6 @@ app.include_router(
 )
 
 if __name__ == "__main__":
-    logging.info("MTS: Starting the app __main__")
+    logging.info(f"MTS: Starting the app __main__ with OTLP enabled: {settings.otlp_enable}")
+    logging.info(f'Settings: {settings.to_dict()}')
     uvicorn.run(app, host="0.0.0.0", port=EXPOSE_PORT, log_config=log_config)
