@@ -89,4 +89,8 @@
         <xsl:text>,</xsl:text>
       </xsl:if>
   </xsl:template>
+  <xsl:template name="escape-json">
+      <xsl:param name="text" />
+      <xsl:value-of select="replace(replace($text, '&#10;', '\\n'), '&quot;', '\\&quot;')" />
+  </xsl:template>
 </xsl:stylesheet>
