@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-orange)](LICENSE)
 [![UV](https://img.shields.io/badge/packaging-UV-FFD43B)](https://github.com/astral-sh/uv)
 
-The **Metadata Transformation Service (MTS)** is a high-performance FastAPI application for transforming and managing metadata across multiple formats. It supports advanced XSLT handling, Jinja2 templating, and RDF conversions — all packaged in a lightweight, blazing-fast API.
+The **Metadata Transformation Service (MTS)** is a high-performance FastAPI application for transforming and managing metadata across multiple formats. It supports advanced XSLT handling, Jinja2 templating, and RDF conversions — all packaged in a lightweight, blazing-fast API. MTS ensures compatibility with various repository standards, facilitating seamless metadata interoperability and content migration. By leveraging robust transformation technologies, it enables efficient, scalable integration across heterogeneous repository systems.
 
 ---
 
