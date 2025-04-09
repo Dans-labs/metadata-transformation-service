@@ -1,54 +1,54 @@
-# Metadata Transformation Service (MTS)
+# 🚀 Metadata Transformation Service (MTS)
 
 ![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.68%2B-green)
 [![License](https://img.shields.io/badge/license-MIT-orange)](LICENSE)
 [![UV](https://img.shields.io/badge/packaging-UV-FFD43B)](https://github.com/astral-sh/uv)
 
-The **Metadata Transformation Service (MTS)** is a high-performance FastAPI application designed for comprehensive metadata processing. It provides robust tools for transforming metadata across various formats including JSON, XML, and JSON-LD, with advanced XSLT management capabilities.
+The **Metadata Transformation Service (MTS)** is a high-performance FastAPI application for transforming and managing metadata across multiple formats. It supports advanced XSLT handling, Jinja2 templating, and RDF conversions — all packaged in a lightweight, blazing-fast API.
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
 ### 🔧 XSLT Management
-- **Upload & Store**: Securely upload and store XSLT transformation files
-- **List & Browse**: View all available XSLT transformations
-- **Delete**: Remove unwanted or outdated transformations
+- **Upload & Store** — Securely upload and store XSLT transformation files.
+- **List & Browse** — View and organize available XSLT transformations.
+- **Delete** — Remove outdated or unnecessary transformations.
 
 ### 🔄 Metadata Transformation
-- **Multi-format Support**: Process JSON, XML, and JSON-LD inputs
-- **XSLT Processing**: Apply complex transformations using stored XSLT files
-- **Template-based**: Supports Jinja2 templates for flexible output generation
+- **Multi-Format Support** — Process metadata in JSON, XML, and JSON-LD.
+- **XSLT Processing** — Apply powerful XSLT transformations to XML data.
+- **Jinja2 Templates** — Generate flexible output using customizable templates.
 
-### 📊 RDF Conversion
-- **JSON-LD to RDF**: Convert JSON-LD to various RDF formats:
+### 🌐 RDF Conversion
+- **From JSON-LD to RDF** — Seamlessly convert JSON-LD into RDF formats:
   - RDF/XML
   - Turtle
   - N-Triples
   - N-Quads
   - Trig
-  - JSON-LD (normalized)
+  - Normalized JSON-LD
 
-### ⚡ UV Package Management
-- **Blazing-fast installations** using UV (Rust-based Python package installer)
-- **Modern dependency resolution** with conflict-free guarantees
-- **Reduced installation times** through parallel downloads and caching
+### ⚡ Lightning-Fast Dependency Management with UV
+- **Rust-powered** installations using [UV](https://github.com/astral-sh/uv).
+- **Fast & Modern** resolution of dependencies with conflict avoidance.
+- **Parallel Downloads** and caching for drastically reduced setup times.
 
 ---
 
 ## 🛠 Installation
 
 ### Prerequisites
-- Python 3.8+
-- [UV](https://github.com/astral-sh/uv) (recommended for best performance)
+- Python 3.8 or newer
+- [UV](https://github.com/astral-sh/uv) (recommended)
 
+### 🚀 Quick Start with UV (Recommended)
 
-### Setup with UV (Recommended)
-1. Install UV (if not already installed):
+1. **Install UV**:
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
-    ```
+
 2. Clone the repository:
    ```bash
    git clone https://github.com/your-organization/metadata-transformation-service.git
