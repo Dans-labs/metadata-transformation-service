@@ -123,5 +123,54 @@
             <xsl:value-of select="./map[@key='metadata']/map[@key='transcript_machine']/string[@key='value']" />
             <xsl:text>&#10;</xsl:text>
         </xsl:if>
+        
+        <xsl:for-each select="./map[@key='metadata']/map[@key='interview_location']/array[@key='value']/map">
+            <xsl:text>ohs.metadata.interview_location.</xsl:text>
+            <xsl:value-of select="string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        <xsl:for-each select="./map[@key='metadata']/map[@key='subject_keywords']/array[@key='value']/map">
+            <xsl:text>ohs.metadata.subject_keywords.</xsl:text>
+            <xsl:value-of select="string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='title']/string[@key='value']">
+            <xsl:text>ohs.metadata.title=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='title']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='subtitle']/string[@key='value']">
+            <xsl:text>ohs.metadata.subtitle=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='subtitle']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='description']/string[@key='value']">
+            <xsl:text>ohs.metadata.description=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='description']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='publisher']/map[@key='value']">
+            <xsl:text>ohs.metadata.publisher.</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='publisher']/map[@key='value']/string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='publisher']/map[@key='value']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:for-each select="./map[@key='metadata']/map[@key='author']/array[@key='value']/map">
+            <xsl:text>ohs.metadata.author.</xsl:text>
+            <xsl:value-of select="string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
     </xsl:template>
 </xsl:stylesheet>
