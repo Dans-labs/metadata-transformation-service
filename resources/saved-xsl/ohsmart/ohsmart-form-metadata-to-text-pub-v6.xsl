@@ -50,5 +50,78 @@
                 </xsl:choose>
             </xsl:for-each>
         </xsl:for-each>
+        <!-- Explicitly handle audience -->
+        <xsl:for-each select="./map[@key='metadata']/map[@key='audience']/array[@key='value']/map">
+            <xsl:text>ohs.metadata.audience.</xsl:text>
+            <xsl:value-of select="string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        <xsl:for-each select="./map[@key='metadata']/map[@key='subject_location']/array[@key='value']/map">
+            <xsl:text>ohs.metadata.subject_location.</xsl:text>
+            <xsl:value-of select="string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        
+        <xsl:for-each select="./map[@key='metadata']/map[@key='collections']/array[@key='value']/map">
+            <xsl:text>ohs.metadata.collections.</xsl:text>
+            <xsl:value-of select="string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        
+        <xsl:for-each select="./map[@key='metadata']/map[@key='language_interview']/array[@key='value']/map">
+            <xsl:text>ohs.metadata.language_interview.</xsl:text>
+            <xsl:value-of select="string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='language_metadata']/map[@key='value']">
+            <xsl:text>ohs.metadata.language_metadata.</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='language_metadata']/map[@key='value']/string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='language_metadata']/map[@key='value']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='rightsholder']/map[@key='value']">
+            <xsl:text>ohs.metadata.rightsholder.</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='rightsholder']/map[@key='value']/string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='rightsholder']/map[@key='value']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='licence_type']/map[@key='value']">
+            <xsl:text>ohs.metadata.licence_type.</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='licence_type']/map[@key='value']/string[@key='label']" />
+            <xsl:text>=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='licence_type']/map[@key='value']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='personal_data']/string[@key='value']">
+            <xsl:text>ohs.metadata.personal_data=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='personal_data']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='contact_email']/string[@key='value']">
+            <xsl:text>ohs.metadata.contact_email=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='contact_email']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        
+        <xsl:if test="./map[@key='metadata']/map[@key='transcript_machine']/string[@key='value']">
+            <xsl:text>ohs.metadata.transcript_machine=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='transcript_machine']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
