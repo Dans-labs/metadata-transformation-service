@@ -22,7 +22,7 @@
         <!-- Process metadata -->
         <xsl:for-each select="./map[@key='metadata']/map">
             <xsl:variable name="entity" select="@key" />
-            <xsl:for-each select="array[@key='value']/map/map[boolean[@key='private']='true']">
+            <xsl:for-each select="array[@key='value']/map/map[boolean[@key='private']='false' or not(boolean[@key='private'])]">
                 <xsl:variable name="key" select="@key" />
                 <xsl:choose>
                     <!-- Handle string values -->
