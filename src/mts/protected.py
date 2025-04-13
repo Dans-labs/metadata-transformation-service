@@ -107,13 +107,18 @@ async def submit_xslt_from_url(xslt_name: str, xsl_url: str, save: bool | None =
 
 
 @router.post("/transform/{xslt_name}", tags=["Transform"])
-async def transform(xslt_name: str, submitted_json_or_xml: Request):
+async def transform(
+    xslt_name: str,
+    submitted_json_or_xml: Request,
+    app_name: str | None = Query(default="Not specified", description="Optional application name")
+):
     """
     Endpoint to transform a submitted JSON or XML document using a specified XSLT.
 
     Args:
         xslt_name (str): The name of the XSLT to be used for transformation.
         submitted_json_or_xml (Request): The request object containing the JSON or XML document to be transformed.
+        app_name (str | None): Optional application name.
 
     Returns:
         dict: A dictionary containing the transformation result.
@@ -122,8 +127,7 @@ async def transform(xslt_name: str, submitted_json_or_xml: Request):
         HTTPException: If the XSLT name is not found in the data keys.
         HTTPException: If the content type of the submitted document is not supported.
     """
-    logging.debug(f"xslt_name: {xslt_name}")
-    print(f"xslt_name: {xslt_name}")
+    logging.debug(f"xslt_name: {xslt_name}, app_name: {app_name}")
     content_type = submitted_json_or_xml.headers["Content-Type"]
     str_xml = ""
     if xslt_name not in data.keys():
@@ -144,8 +148,8 @@ async def transform(xslt_name: str, submitted_json_or_xml: Request):
         raise HTTPException(
             status_code=400, detail=f"Content type {content_type} not supported"
         )
-
     result = await transform_to_string(str_xml, xml_tmpfile, xslt_name)
+    logging.debug(f"app_name: {app_name}\nxslt_name: {xslt_name}\nstr_xml: {str_xml}\nresult: {result}")
     return {"result": result}
 
 
@@ -510,7 +514,7 @@ async def transform_to_string(str_xml, xml_tmp_file_name, xslt_name):
     # file.close()
     result = data[xslt_name].transform_to_string(source_file=xml_tmp_file_name)
     if result is None:
-        logging.debug(f"Empty result, submitted_json: {str_xml}. XSLT: {xslt_name}")
+        logging.error(f"Empty result, submitted_json: {str_xml}. XSLT: {xslt_name}")
         raise HTTPException(
             status_code=500, detail=f"Empty result, submitted_json: {str_xml}"
         )
@@ -518,6 +522,7 @@ async def transform_to_string(str_xml, xml_tmp_file_name, xslt_name):
         os.remove(xml_tmp_file_name)
     except:
         logging.error(f"Error while deleting file {xml_tmp_file_name}")
+
     logging.debug(result)
     return result
 
@@ -530,7 +535,7 @@ async def validate_submitted_xml(submitted_xml):
         tree = ET.fromstring(submitted_xml)
         return submitted_xml
     except ValueError as err:
-        logging.debug(err)
+        logging.error(err)
         raise HTTPException(
             status_code=500, detail=f"Submitted XML is not valid. {err}"
         )
@@ -549,11 +554,11 @@ async def validate_xml_encapsulated_json(submitted_json, xml_tmp_file_name):
         etree = ET.parse(xml_tmp_file_name)
         return str_xml_encapsulated_json
     except ET.ParseError as pe:
-        logging.debug(pe)
+        logging.error(pe)
         shutil.copyfile(xml_tmp_file_name, xml_tmp_file_name + "-error-tobe_converted")
         return remove_xml_invalid_characters(submitted_json_str, xml_tmp_file_name)
     except ValueError as err:
-        logging.debug(err)
+        logging.error(err)
         raise HTTPException(
             status_code=500, detail=f"Submitted json is not valid. {err}"
         )
@@ -571,7 +576,7 @@ def remove_xml_invalid_characters(str_json, xml_tmp_file):
         etree = ET.parse(xml_tmp_file)
         return str_xml
     except ET.ParseError as pe:
-        logging.debug(pe)
+        logging.error(pe)
         shutil.copyfile(xml_tmp_file, xml_tmp_file + "-ERROR-converted-fail")
         raise HTTPException(
             status_code=500, detail=f"Transformed json is not valid. {pe}"
@@ -589,7 +594,7 @@ async def transform_to_rdf(str_submitted_json, output_format="xml"):
             output_format = "pretty-xml"
         result = g.serialize(format=output_format)
     except ValueError as err:
-        logging.debug(f"error caused by: {err}")
+        logging.error(f"error caused by: {err}")
         raise HTTPException(status_code=500, detail=f"Error, msg: {err} ")
     except:
         raise HTTPException(status_code=500, detail=f"Error!")
