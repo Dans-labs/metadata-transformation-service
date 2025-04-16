@@ -50,6 +50,16 @@
                 </xsl:choose>
             </xsl:for-each>
         </xsl:for-each>
+        <xsl:if test="./map[@key='metadata']/map[@key='recording_format']/array[@key='value']">         
+            <xsl:text>ohs.metadata.recording_format=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='recording_format']/array[@key='value']/map/string" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="./map[@key='metadata']/map[@key='recording_equipment']/string[@key='value']">         
+            <xsl:text>ohs.metadata.recording_equipment=</xsl:text>
+            <xsl:value-of select="./map[@key='metadata']/map[@key='recording_equipment']/string[@key='value']" />
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
         <!-- Explicitly handle audience -->
         <xsl:for-each select="./map[@key='metadata']/map[@key='audience']/array[@key='value']/map">
             <xsl:text>ohs.metadata.audience.</xsl:text>
@@ -171,6 +181,57 @@
             <xsl:text>=</xsl:text>
             <xsl:value-of select="string[@key='value']" />
             <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        
+        <xsl:variable name="FileMetadata">file-metadata</xsl:variable>
+        <xsl:for-each select="//array[@key = 'file-metadata']/map">
+            <xsl:variable name="isExcluded"
+                select="boolean(boolean[@key = 'private' and text() = 'true'])"/>
+            <xsl:choose>
+                <xsl:when test="$isExcluded">
+                    <xsl:text/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="$FileMetadata"/>
+                    <xsl:text>.name=</xsl:text>
+                    <xsl:value-of select="string[@key = 'name']"/>
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="$FileMetadata"/>
+                    <xsl:text>.lastModified=</xsl:text>
+                    <xsl:value-of select="number[@key = 'lastModified']"/>
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="$FileMetadata"/>
+                    <xsl:text>.private=</xsl:text>
+                    <xsl:value-of select="boolean[@key = 'private']"/>
+                    <xsl:choose>
+                        <xsl:when test="map[@key = 'role']">
+                            <xsl:text>&#10;</xsl:text>
+                            <xsl:value-of select="$FileMetadata"/>
+                            <xsl:text>.role.label=</xsl:text>
+                            <xsl:value-of select="map[@key = 'role']/string[@key = 'label']"/>
+                            <xsl:text>&#10;</xsl:text>
+                            <xsl:value-of select="$FileMetadata"/>
+                            <xsl:text>.role.value=</xsl:text>
+                            <xsl:value-of select="map[@key = 'role']/string[@key = 'value']"/>
+                        </xsl:when>
+                    </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="array[@key = 'process']">
+                            <xsl:for-each select="array[@key = 'process']/map">
+                                <xsl:text>&#10;</xsl:text>
+                                <xsl:value-of select="$FileMetadata"/>
+                                <xsl:text>.process.label=</xsl:text>
+                                <xsl:value-of select="string[@key = 'label']"/>
+                                <xsl:text>&#10;</xsl:text>
+                                <xsl:value-of select="$FileMetadata"/>
+                                <xsl:text>.process.value=</xsl:text>
+                                <xsl:value-of select="string[@key = 'value']"/>
+                            </xsl:for-each>
+                        </xsl:when>
+                    </xsl:choose>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:for-each>
     </xsl:template>
 </xsl:stylesheet>
