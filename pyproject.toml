@@ -1,7 +1,7 @@
 [project]
 name = "metadata-transformation-service"
 title = "Metadata Transformer Service"
-version = "0.1.6-dev"
+version = "0.1.7-dev"
 description = "The transformer service converts metadata from one format to another, ensuring compatibility with various repository standards and requirements. It plays a crucial role in facilitating data interoperability and seamless content migration between repositories. By leveraging XSLT-based transformation technology, the transformer service efficiently converts metadata into multiple formats, enabling seamless integration with diverse repository systems."
 authors = [
     {name = "Eko Indarto", email = "eko.indarto@dans.knaw.nl"}

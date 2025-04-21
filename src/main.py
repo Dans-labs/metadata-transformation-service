@@ -51,12 +51,14 @@ async def lifespan(application: FastAPI):
     yield
 
 
+build_date = os.environ.get("BUILD_DATE", "unknown")
 app = FastAPI(
-    title=project_details["title"],
-    description=project_details["description"],
-    version=project_details["version"],
-    lifespan=lifespan,
+    title=project_details['title'],
+    description=project_details['description'],
+    version=f"{project_details['version']} (Build Date: {build_date})",
+    lifespan=lifespan
 )
+
 
 LOG_FILE = settings.LOG_FILE
 log_config = uvicorn.config.LOGGING_CONFIG
