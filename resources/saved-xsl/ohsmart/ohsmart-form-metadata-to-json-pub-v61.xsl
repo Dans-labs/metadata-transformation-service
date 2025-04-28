@@ -108,7 +108,7 @@
                         </xsl:if>
                     </xsl:for-each>
                 </xsl:when>
-                <xsl:when test="(@key='recording_equipment') or (@key='title') or (@key='subtitle') or (@key='description')  or (@key='contact_email') or (@key='personal_data')">
+                <xsl:when test="(@key='transcript_machine') or (@key='recording_equipment') or (@key='title') or (@key='subtitle') or (@key='description')  or (@key='contact_email') or (@key='personal_data')">
                     "<xsl:value-of select="@key"/>":"<xsl:value-of select="./string"/>", 
                 </xsl:when>
                 <xsl:when test="(@key = 'publisher')  or (@key='language_metadata') or (@key='rightsholder') or (@key='licence_type') ">
