@@ -158,57 +158,43 @@
             
         </xsl:for-each>
         <xsl:text>"file-metadata": [ </xsl:text>
-        <xsl:for-each select="//array[@key = 'file-metadata']/map">
+        <xsl:for-each select="//array[@key = 'file-metadata']/map[boolean[@key = 'private' and text() = 'false']]">
             <xsl:text>{ "name": "</xsl:text>
             <xsl:value-of select="string[@key = 'name']"/>
             <xsl:text>", </xsl:text>
-            <xsl:text>"lastModified": "</xsl:text>
-            <xsl:value-of select="number[@key = 'lastModified']"/>
-            <xsl:text>", </xsl:text>
-            <xsl:text>"private": "</xsl:text>
+            
+            <xsl:text>"private": </xsl:text>
             <xsl:value-of select="boolean[@key = 'private']"/>
-            <xsl:choose>
-                <xsl:when test="map[@key = 'role'] or array[@key = 'process']">
-                    <xsl:text>", </xsl:text>
-                </xsl:when>
-                <xsl:otherwise>" </xsl:otherwise>
-            </xsl:choose>
-            <xsl:choose>
-                <xsl:when test="map[@key = 'role']">
-                    <xsl:text>"role": { "label": "</xsl:text>
-                    <xsl:value-of select="map[@key = 'role']/string[@key = 'label']"/>
-                    <xsl:text>", "value": "</xsl:text>
-                    <xsl:value-of select="map[@key = 'role']/string[@key = 'value']"/>
-                    <xsl:text>" } </xsl:text>
-                </xsl:when>
-            </xsl:choose>
-            <xsl:choose>
-                <xsl:when test="array[@key = 'process']">
-                    <xsl:if test="map[@key = 'role']">
-                        <xsl:text>,</xsl:text>
-                    </xsl:if>
-                    <xsl:text>"process": [ </xsl:text>
-                    <xsl:for-each select="array[@key = 'process']/map">
-                        <xsl:text>{ "label": "</xsl:text>
-                        <xsl:value-of select="string[@key = 'label']"/>
-                        <xsl:text>", "value": "</xsl:text>
-                        <xsl:value-of select="string[@key = 'value']"/>
-                        <xsl:text>" }</xsl:text>
-                        <xsl:choose>
-                            <xsl:when test="position() != last()">
-                                <xsl:text>, </xsl:text>
-                            </xsl:when>
-                        </xsl:choose>
-                    </xsl:for-each>
-                    <xsl:text>] </xsl:text>
-                </xsl:when>
-            </xsl:choose>
+            <xsl:if test="map[@key = 'role']">
+                <xsl:text>, "role": { "label": "</xsl:text>
+                <xsl:value-of select="map[@key = 'role']/string[@key = 'label']"/>
+                <xsl:text>", "value": "</xsl:text>
+                <xsl:value-of select="map[@key = 'role']/string[@key = 'value']"/>
+                <xsl:text>" }</xsl:text>
+            </xsl:if>
+            <xsl:if test="string[@key = 'embargo']">
+                <xsl:text>, "embargo": "</xsl:text>
+                <xsl:value-of select="string[@key = 'embargo']"/>
+                <xsl:text>"</xsl:text>
+            </xsl:if>
+            <xsl:if test="string[@key = 'mimetype']">
+                <xsl:text>, "mimetype": "</xsl:text>
+                <xsl:value-of select="string[@key = 'mimetype']"/>
+                <xsl:text>"</xsl:text>
+            </xsl:if>
+            <xsl:if test="number[@key = 'size']">
+                <xsl:text>, "size": </xsl:text>
+                <xsl:value-of select="number[@key = 'size']"/>
+            </xsl:if>
+            <xsl:if test="string[@key = 'state']">
+                <xsl:text>, "state": "</xsl:text>
+                <xsl:value-of select="string[@key = 'state']"/>
+                <xsl:text>"</xsl:text>
+            </xsl:if>
             <xsl:text>}</xsl:text>
-            <xsl:choose>
-                <xsl:when test="position() != last()">
-                    <xsl:text>, </xsl:text>
-                </xsl:when>
-            </xsl:choose>
+            <xsl:if test="position() != last()">
+                <xsl:text>, </xsl:text>
+            </xsl:if>
         </xsl:for-each>
         <xsl:text>] } </xsl:text>
         }
