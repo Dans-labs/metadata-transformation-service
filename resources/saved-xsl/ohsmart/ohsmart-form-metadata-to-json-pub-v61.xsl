@@ -162,7 +162,11 @@
             <xsl:text>{ "name": "</xsl:text>
             <xsl:value-of select="string[@key = 'name']"/>
             <xsl:text>", </xsl:text>
-            
+            <xsl:if test="./number[@key = 'lastModified']">
+                <xsl:text>"lastModified": </xsl:text>
+                <xsl:value-of select="number[@key = 'lastModified']"/>
+                <xsl:text>, </xsl:text>
+            </xsl:if>
             <xsl:text>"private": </xsl:text>
             <xsl:value-of select="boolean[@key = 'private']"/>
             <xsl:if test="map[@key = 'role']">
