@@ -53,7 +53,7 @@
         <xsl:variable name="FileMetadata">file-metadata</xsl:variable>
         <xsl:for-each select="//array[@key = 'file-metadata']/map">
             <xsl:variable name="isExcluded"
-                select="boolean(boolean[@key = 'private' and text() = 'true'])"/>
+                select="boolean(boolean[@key = 'private' and text() = 'false'])"/>
             <xsl:choose>
                 <xsl:when test="$isExcluded">
                     <xsl:text/>
@@ -67,6 +67,10 @@
                     <xsl:value-of select="$FileMetadata"/>
                     <xsl:text>.lastModified=</xsl:text>
                     <xsl:value-of select="number[@key = 'lastModified']"/>
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="$FileMetadata"/>
+                    <xsl:text>.embargo=</xsl:text>
+                    <xsl:value-of select="string[@key = 'embargo']"/>
                     <xsl:text>&#10;</xsl:text>
                     <xsl:value-of select="$FileMetadata"/>
                     <xsl:text>.private=</xsl:text>

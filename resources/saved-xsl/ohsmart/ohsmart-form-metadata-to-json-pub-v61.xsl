@@ -40,6 +40,92 @@
                         } ,
                     </xsl:for-each>
                 </xsl:when>
+                <xsl:when test="(@key='interviewer')">
+                    "<xsl:value-of select="@key"/>": [
+                    <xsl:for-each select="./array/map">
+                        {
+                        <xsl:for-each select="./map">
+                            <xsl:choose>
+                                <xsl:when test="./array">
+                                   
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:choose>
+                                        <xsl:when test=" (@key='interviewer_first_name' or  @key='interviewer_last_name')">
+                                            <xsl:if test="(string-length(./following-sibling::map[@key='interviewer_public']/array) > 0)">
+                                                "<xsl:value-of select="@key"/>": "<xsl:value-of select="./string[@key='value']"/>"
+                                                <xsl:if test="@key='interviewer_first_name'">,</xsl:if>
+                                            </xsl:if>
+                                            
+                                        </xsl:when>
+                                    </xsl:choose>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
+                        } <xsl:if test="position() != last()">
+                            <xsl:text>,</xsl:text>
+                        </xsl:if>
+                        <xsl:if test="position() = last()">
+                            <xsl:text>],</xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="(@key='interpreter')">
+                    "<xsl:value-of select="@key"/>": [
+                    <xsl:for-each select="./array/map">
+                        {
+                        <xsl:for-each select="./map">
+                            <xsl:choose>
+                                <xsl:when test="./array">
+                                    
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:choose>
+                                        <xsl:when test=" (@key='interpreter_first_name' or  @key='interpreter_last_name')">
+                                            <xsl:if test="(string-length(./following-sibling::map[@key='interpreter_public']/array) > 0)">
+                                                "<xsl:value-of select="@key"/>": "<xsl:value-of select="./string[@key='value']"/>"
+                                                <xsl:if test="@key='interpreter_first_name'">,</xsl:if>
+                                            </xsl:if>
+                                            
+                                        </xsl:when>
+                                    </xsl:choose>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
+                        } <xsl:if test="position() != last()">
+                            <xsl:text>,</xsl:text>
+                        </xsl:if>
+                        <xsl:if test="position() = last()">
+                            <xsl:text>],</xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="(@key='others')">
+                    "<xsl:value-of select="@key"/>": [
+                    <xsl:for-each select="./array/map">
+                        {
+                        <xsl:for-each select="./map">
+                            <xsl:choose>
+                                <xsl:when test="./array">
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:choose>
+                                        <xsl:when test=" (@key='others_first_name' or  @key='others_last_name')">
+                                            <xsl:if test="(string-length(./following-sibling::map[@key='others_public']/array) > 0)">
+                                                "<xsl:value-of select="@key"/>": "<xsl:value-of select="./string[@key='value']"/>"
+                                                <xsl:if test="@key='others_first_name'">,</xsl:if>
+                                            </xsl:if>
+                                        </xsl:when>
+                                    </xsl:choose>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
+                        } 
+                        <xsl:if test="position() = last()">
+                            <xsl:text>],</xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:when>
                 <xsl:when test="(@key='interview_date_time') or (@key='recorded_by') 
                     or (@key='grant') or (@key='subject_date_time') or (@key='relation')">
                    "<xsl:value-of select="@key"/>": [

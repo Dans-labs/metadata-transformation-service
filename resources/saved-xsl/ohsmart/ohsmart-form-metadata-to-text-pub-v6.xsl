@@ -35,6 +35,47 @@
                         <xsl:value-of select="string[@key='value']" />
                         <xsl:text>&#10;</xsl:text>
                     </xsl:when>
+                    <xsl:when test="string[@key='value']">
+                        <xsl:text>ohs.metadata.XXXX</xsl:text>
+                        <xsl:value-of select="$entity" />
+                        <xsl:text>.</xsl:text>
+                        <xsl:value-of select="$key" />
+                        <xsl:text>=</xsl:text>
+                        <xsl:value-of select="string[@key='value']" />
+                        <xsl:text>&#10;</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="map[@key='value'] and $key='relation_type'">
+                        <xsl:text>ohs.metadata.</xsl:text>
+                        <xsl:value-of select="$entity" />
+                        <xsl:text>.</xsl:text>
+                        <xsl:value-of select="$key" />
+                        <xsl:text>=</xsl:text>
+                        <xsl:value-of select="./map/string[@key='value']" />
+                        <xsl:text>&#10;</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="map[@key='value'] and $key='name'">
+                        <xsl:text>ohs.metadata.</xsl:text>
+                        <xsl:value-of select="$entity" />
+                        <xsl:text>.</xsl:text>
+                        <xsl:value-of select="$key" />
+                        <xsl:text>.label=</xsl:text>
+                        <xsl:value-of select="./map/string[@key='label']" />
+                        <xsl:text>&#10;</xsl:text>
+                        <xsl:text>ohs.metadata.</xsl:text>
+                        <xsl:value-of select="$entity" />
+                        <xsl:text>.</xsl:text>
+                        <xsl:value-of select="$key" />
+                        <xsl:text>.value=</xsl:text>
+                        <xsl:value-of select="./map/string[@key='value']" />
+                        <xsl:text>&#10;</xsl:text>
+                        <xsl:text>ohs.metadata.</xsl:text>
+                        <xsl:value-of select="$entity" />
+                        <xsl:text>.</xsl:text>
+                        <xsl:value-of select="$key" />
+                        <xsl:text>.extraLabel=</xsl:text>
+                        <xsl:value-of select="./map/string[@key='extraLabel']" />
+                        <xsl:text>&#10;</xsl:text>
+                    </xsl:when>
                     <!-- Handle array values -->
                     <xsl:when test="array[@key='value']">
                         <xsl:for-each select="array[@key='value']/string">
@@ -175,18 +216,18 @@
             <xsl:text>&#10;</xsl:text>
         </xsl:if>
         
-        <xsl:for-each select="./map[@key='metadata']/map[@key='author']/array[@key='value']/map">
+<!--        <xsl:for-each select="./map[@key='metadata']/map[@key='author']/array[@key='value']/map">
             <xsl:text>ohs.metadata.author.</xsl:text>
             <xsl:value-of select="string[@key='label']" />
             <xsl:text>=</xsl:text>
             <xsl:value-of select="string[@key='value']" />
             <xsl:text>&#10;</xsl:text>
-        </xsl:for-each>
+        </xsl:for-each>-->
         
         <xsl:variable name="FileMetadata">file-metadata</xsl:variable>
         <xsl:for-each select="//array[@key = 'file-metadata']/map">
             <xsl:variable name="isExcluded"
-                select="boolean(boolean[@key = 'private' and text() = 'true'])"/>
+                select="boolean(./boolean[@key = 'private' and text() = 'true'])"/>
             <xsl:choose>
                 <xsl:when test="$isExcluded">
                     <xsl:text/>
@@ -200,6 +241,10 @@
                     <xsl:value-of select="$FileMetadata"/>
                     <xsl:text>.lastModified=</xsl:text>
                     <xsl:value-of select="number[@key = 'lastModified']"/>
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="$FileMetadata"/>
+                    <xsl:text>.embargo=</xsl:text>
+                    <xsl:value-of select="string[@key = 'embargo']"/>
                     <xsl:text>&#10;</xsl:text>
                     <xsl:value-of select="$FileMetadata"/>
                     <xsl:text>.private=</xsl:text>
