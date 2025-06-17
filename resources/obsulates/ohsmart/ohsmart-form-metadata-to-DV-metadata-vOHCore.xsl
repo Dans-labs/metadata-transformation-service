@@ -148,53 +148,90 @@
       </xsl:for-each>
             ]
           },
+         
           {
             "typeName": "keyword",
             "multiple": true,
             "typeClass": "compound",
             "value": [
             <!-- COVx01 -->
-                <xsl:for-each select="//map[@key='metadata']/map[@key='subject_keywords']/array/map">
-                  {
-                  <xsl:choose>
-                    <xsl:when test="./boolean[@key='freetext']">
-
-                          "keywordValue": {
-                          "typeName": "keywordValue",
-                          "multiple": false,
-                          "typeClass": "primitive",
-                          "value": "<xsl:value-of select="./string[@key='value']"/>"
-                      }
-
-                    </xsl:when>
-                    <xsl:otherwise>
-
-                         "keywordValue": {
-                         "typeName": "keywordValue",
-                         "multiple": false,
-                         "typeClass": "primitive",
-                         "value": "<xsl:value-of select="./string[@key='label']/."/>"
-                      },
-                      "keywordVocabulary": {
-                          "typeName": "keywordVocabulary",
-                          "multiple": false,
-                          "typeClass": "primitive",
-                          "value": "Art and Architecture Thesaurus"
-                      },
-                      "keywordVocabularyURI": {
-                          "typeName": "keywordVocabularyURI",
-                          "multiple": false,
-                          "typeClass": "primitive",
-                          "value": "<xsl:value-of select="./string[@key='value']/."/>"
-                      }
-
-                    </xsl:otherwise>
-                  </xsl:choose>
-                 }
-                  <xsl:if test="position() != last()">
-                    <xsl:text>,</xsl:text>
-                  </xsl:if>
-                </xsl:for-each>
+      <!--<xsl:if test="/map/map[@key='metadata']/map[@key='subject_keywords_aat']">
+       
+        <xsl:for-each select="/map/map[@key='metadata']/map[@key='subject_keywords_aat']/array/map">
+          {
+          
+          
+          "keywordValue": {
+          "typeName": "keywordValue",
+          "multiple": false,
+          "typeClass": "primitive",
+          "value": "<xsl:value-of select="./string[@key='label']/."/>"
+          },
+          "keywordVocabulary": {
+          "typeName": "keywordVocabulary",
+          "multiple": false,
+          "typeClass": "primitive",
+          "value": "Art and Architecture Thesaurus"
+          },
+          "keywordVocabularyURI": {
+          "typeName": "keywordVocabularyURI",
+          "multiple": false,
+          "typeClass": "primitive",
+          "value": "<xsl:value-of select="./string[@key='value']/."/>"
+          }
+          }
+          <xsl:if test="position() != last()">
+            <xsl:text>,</xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>-->
+      <xsl:if test="//map[@key='metadata']/map[@key='subject_keywords_wikidata']">
+        <xsl:for-each select="/map/map[@key='metadata']/map[@key='subject_keywords_wikidata']/array/map">
+          <!--<xsl:if test="number(position())=1">,</xsl:if>-->
+          {
+          
+          
+          "keywordValue": {
+          "typeName": "keywordValue",
+          "multiple": false,
+          "typeClass": "primitive",
+          "value": "<xsl:value-of select="./string[@key='label']/."/>"
+          },
+          "keywordVocabulary": {
+          "typeName": "keywordVocabulary",
+          "multiple": false,
+          "typeClass": "primitive",
+          "value": "Wikidata"
+          },
+          "keywordVocabularyURI": {
+          "typeName": "keywordVocabularyURI",
+          "multiple": false,
+          "typeClass": "primitive",
+          "value": "<xsl:value-of select="./string[@key='value']/."/>"
+          }
+          }
+          <xsl:if test="position() != last()">
+            <xsl:text>,</xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>
+      <xsl:if test="//map[@key='metadata']/map[@key='subject_keywords_freetext']">
+        <xsl:for-each select="/map/map[@key='metadata']/map[@key='subject_keywords_freetext']/array/map">
+          <xsl:if test="number(position())=1">,</xsl:if>
+          {
+          "keywordValue": {
+          "typeName": "keywordValue",
+          "multiple": false,
+          "typeClass": "primitive",
+          "value": "<xsl:value-of select="./string[@key='value']/."/>"
+          }
+          }
+          <xsl:if test="position() != last()">
+            <xsl:text>,</xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>
+     
             ]
           },
           {
@@ -397,6 +434,47 @@
                     }
               ]
       },
+        "dansSocialSciences": {
+                "displayName": "Social Sciences and Humanities",
+                "name": "dansSocialSciences",
+                "fields": [
+                    {
+                        "typeName": "dansAATClassification",
+                        "multiple": true,
+                        "typeClass": "primitive",
+                        "value": [
+      <xsl:if test="/map/map[@key='metadata']/map[@key='subject_keywords_aat']">
+        <xsl:for-each select="/map/map[@key='metadata']/map[@key='subject_keywords_aat']/array/map">
+          "<xsl:value-of select="./string[@key='value']/."/>"
+          <xsl:if test="position() != last()">
+            <xsl:text>,</xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+     
+                        
+                        ],
+                        "expandedvalue": [
+        <xsl:for-each select="/map/map[@key='metadata']/map[@key='subject_keywords_aat']/array/map">
+                            {
+                            "@id": "<xsl:value-of select="./string[@key='value']/."/>",
+                                "termName": [
+                                    {
+                                        "lang": "en",
+                                        "value": "<xsl:value-of select="./string[@key='label']/."/>"
+                                    }
+                                ],
+                                "vocabularyUri": "<xsl:value-of select="./string[@key='value']/."/>"
+                            }
+          <xsl:if test="position() != last()">
+            <xsl:text>,</xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+                            ]}
+      </xsl:if>        
+                     
+      
+                ]
+            },
       "dansTemporalSpatial": {
           "displayName": "Temporal and Spatial Coverage",
           "name": "dansTemporalSpatial",
