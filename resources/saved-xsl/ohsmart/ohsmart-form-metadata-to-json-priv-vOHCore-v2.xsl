@@ -145,6 +145,9 @@
                                 </xsl:if>
                             </xsl:for-each>
                             } 
+                        <xsl:if test="position() != last()">
+                            <xsl:text>,</xsl:text>
+                        </xsl:if>
                         <xsl:if test="position() = last()">
                             <xsl:text>],</xsl:text>
                         </xsl:if>
@@ -172,7 +175,9 @@
                                     <xsl:text>,</xsl:text>
                                 </xsl:if>
                             </xsl:for-each>
-                            } 
+                            } <xsl:if test="position() != last()">
+                                <xsl:text>,</xsl:text>
+                            </xsl:if>
                         </xsl:if>
                         <xsl:if test="position() = last()">
                             <xsl:text>],</xsl:text>
