@@ -17,7 +17,7 @@ dependencies = [
     "jproperties>=2.1.2",
     "rdflib>=7.1.3",
     "requests>=2.32.3",
-    "saxonche>=12.5.0",
+    "saxonche>=12.9.0",
     "typing-inspect>=0.9.0",
     "xmltodict>=0.14.2",
 ]
