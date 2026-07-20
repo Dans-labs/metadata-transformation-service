@@ -31,7 +31,7 @@ api_keys = [
 security = HTTPBearer()
 
 APP_NAME = os.environ.get("APP_NAME", project_details["title"])
-EXPOSE_PORT = os.environ.get("EXPOSE_PORT", 1745)
+EXPOSE_PORT = int(os.environ.get("EXPOSE_PORT", 1745))
 OTLP_GRPC_ENDPOINT = os.environ.get("OTLP_GRPC_ENDPOINT", "http://localhost:4317")
 
 
