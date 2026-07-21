@@ -65,7 +65,7 @@
         "typeClass": "primitive",
         "multiple": false,
         "typeName": "datasetContactEmail",
-        "value" : "portal@odissei.nl"
+        "value" : "portal@orchestrator.nl"
         },
         "datasetContactName" : {
         "typeClass": "primitive",
