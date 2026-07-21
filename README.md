@@ -75,14 +75,14 @@ The **Metadata Transformation Service (MTS)** is a high-performance FastAPI appl
 ### Setup
 
 1. **Open the project in PyCharm:**
-   - File → Open → `/Users/akmi/dev/work/dans/odissei-acp-poc`
+   - File → Open → `/Users/akmi/dev/work/dans/orchestrator-acp-poc`
 
 2. **Configure Python Interpreter:**
    - PyCharm → Preferences (or File → Settings)
    - Project → Python Interpreter
    - Click ⚙️ → Add
    - Select "Existing Environment"
-   - Choose: `/Users/akmi/dev/work/dans/odissei-acp-poc/services/mts/.venv/bin/python`
+   - Choose: `/Users/akmi/dev/work/dans/orchestrator-acp-poc/services/mts/.venv/bin/python`
    - Click OK
 
 3. **Install Dependencies:**
@@ -100,12 +100,12 @@ The **Metadata Transformation Service (MTS)** is a high-performance FastAPI appl
 3. **Fill in the following:**
    - **Name:** `MTS (Local)`
    - **Module name:** `src.main` (⚠️ NOT Script path)
-   - **Working directory:** `/Users/akmi/dev/work/dans/odissei-acp-poc/services/mts`
+   - **Working directory:** `/Users/akmi/dev/work/dans/orchestrator-acp-poc/services/mts`
    - **Python interpreter:** Select the MTS venv you set up above
    - **Environment variables:**
      ```
-     BASE_DIR=/Users/akmi/dev/work/dans/odissei-acp-poc/services/mts;
-     PYTHONPATH=/Users/akmi/dev/work/dans/odissei-acp-poc/services/mts;
+     BASE_DIR=/Users/akmi/dev/work/dans/orchestrator-acp-poc/services/mts;
+     PYTHONPATH=/Users/akmi/dev/work/dans/orchestrator-acp-poc/services/mts;
      EXPOSE_PORT=1745;
      OTLP_GRPC_ENDPOINT=http://localhost:4317
      ```

@@ -31,7 +31,7 @@
         </xsl:for-each>
          ],
         "titles": [{"title": "<xsl:value-of select="$title"/>"}],
-        "publisher": "ODISSEI",
+        "publisher": "ORCHESTRATOR",
         "publicationYear": "<xsl:value-of select="$pub-year"/>",
         "types": {
         "resourceType": "Dataset",

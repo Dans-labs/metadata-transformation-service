@@ -9,7 +9,7 @@
     "titles": [
         {"title": "{{title}}" }
     ],
-    "publisher": "ODISSEI",
+    "publisher": "ORCHESTRATOR",
     "publicationYear": "{{year}}",
     "types": {
         "resourceType": "Dataset",
