@@ -86,7 +86,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+@app.get('/')
+def info():
+    return {
+        "name": project_details.get("name", project_details.get("title", "unknown")),
+        "version": project_details.get("version", "unknown"),
+    }
 app.include_router(public.router, tags=["Public"], prefix="")
 
 app.include_router(protected.router, prefix="", dependencies=[Depends(api_key_auth)])
