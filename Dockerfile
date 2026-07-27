@@ -32,6 +32,9 @@ ENV APP_NAME="Metadata Transformation Service"
 ENV PATH="/home/akmi/mts/.venv/bin:$PATH"
 # Copy the application into the container.
 COPY src ./src
+COPY conf /bootstrap/mts/conf
+COPY resources /bootstrap/mts/resources
+COPY docker-entrypoint.sh ./docker-entrypoint.sh
 COPY pyproject.toml .
 COPY README.md .
 COPY uv.lock .
@@ -39,7 +42,9 @@ COPY uv.lock .
 RUN uv venv --clear .venv
 # Install dependencies
 
-RUN uv sync --frozen --no-cache
+RUN chmod +x ${BASE_DIR}/docker-entrypoint.sh && \
+    uv sync --frozen --no-cache && \
+    chown -R akmi:akmi ${BASE_DIR} /bootstrap/mts
 
 # Run the application.
 CMD ["python", "-m", "src.main"]
