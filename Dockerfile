@@ -8,7 +8,9 @@ ENV BUILD_DATE=$BUILD_DATE
 RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get dist-upgrade -y && \
-    apt-get install -y --no-install-recommends git curl && \
+    apt-get install -y --no-install-recommends \ 
+        git curl \
+        libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 fonts-dejavu-core && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
