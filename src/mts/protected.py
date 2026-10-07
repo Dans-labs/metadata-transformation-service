@@ -11,6 +11,9 @@ import requests
 import xmltodict
 from boltons.iterutils import remap
 
+from starlette.concurrency import run_in_threadpool
+from weasyprint import HTML
+
 # import codecs
 from fastapi import APIRouter, Request, HTTPException, Query
 from fastapi import Response
@@ -457,6 +460,42 @@ async def transform(submitted_xml: Request, clean_output: bool | None = False):
         clean_result = remap(new_result, visit=lambda path, key, value: bool(value))
         return {"result": clean_result}
     return {"result": new_result}
+
+@router.post("/transform-to-pdf/{xslt_name}", tags=["Transform"])
+async def transform_to_pdf(
+    xslt_name: str,
+    submitted: Request,
+    app_name: str | None = Query(default="Not specified"),
+):
+    """
+    Endpoint to transform a submitted XML or JSON document to PDF format using the specified XSLT template.
+
+    Args:
+        xslt_name (str): The name of the XSLT template to be used for transformation.
+        submitted (Request): The request object containing the XML or JSON document to be transformed.
+        app_name (str | None): Optional application name. Defaults to "Not specified".
+
+    Returns:
+        Response: A response object containing the generated PDF.
+
+    Raises:
+        HTTPException: If the specified XSLT template is not found or if the content type of the submitted document is not supported.
+    """
+    if xslt_name not in data.keys():
+        raise HTTPException(status_code=500, detail=f'The given xslt_name: "{xslt_name}" is not found')
+
+    content_type = submitted.headers["Content-Type"]
+    xml_tmpfile = await create_xml_tmp_file_name(xslt_name)
+    if content_type == "application/json":
+        str_xml = await validate_xml_encapsulated_json(await submitted.json(), xml_tmpfile)
+    elif content_type == "application/xml":
+        str_xml = await validate_submitted_xml(await submitted.body())
+    else:
+        raise HTTPException(status_code=400, detail=f"Content type {content_type} not supported")
+
+    html = await transform_to_string(str_xml, xml_tmpfile, xslt_name)
+    pdf_bytes = await run_in_threadpool(lambda: HTML(string=html).write_pdf())
+    return Response(content=pdf_bytes, media_type="application/pdf")
 
 
 @router.get("/ping", include_in_schema=False)

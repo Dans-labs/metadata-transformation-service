@@ -22,10 +22,10 @@
         "description": "<xsl:if test="./map[@key='role']">Role: <xsl:value-of select="./map/string[@key='label']"/></xsl:if>",
         "directoryLabel": "<xsl:choose>
           <xsl:when test="./string[@key='name' and starts-with(text(), '__generated__form-metadata-')]">__generated__files</xsl:when>
-          <xsl:when test="./string[@key='name' and (text() = 'Oral History metadata private.txt' or text()='Oral History metadata public.txt')]">Oral History metadata</xsl:when>
+          <xsl:when test="./string[@key='name' and (text() = 'Oral History metadata private.txt' or text()='Oral History metadata public.txt' or text()='Oral History metadata private.pdf' or text()='Oral History metadata public.pdf')]">Oral History metadata</xsl:when>
         </xsl:choose>",
         "categories": [
-        <xsl:if test="./string[@key='name' and (starts-with(text(), '__generated__form-metadata-') or text()='Oral History metadata private.txt' or text()='Oral History metadata public.txt')]">
+        <xsl:if test="./string[@key='name' and (starts-with(text(), '__generated__form-metadata-') or text()='Oral History metadata private.txt' or text()='Oral History metadata public.txt' or text()='Oral History metadata private.pdf' or text()='Oral History metadata public.pdf')]">
           "__generated__files"
         </xsl:if>
         ],
