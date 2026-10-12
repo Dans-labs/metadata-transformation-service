@@ -4,7 +4,8 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="xs math" version="3.0">
 
-    <xsl:output method="html" html-version="5" indent="yes" encoding="UTF-8"/>
+    <!-- indent="no": pretty-printing adds whitespace/newlines inside cells, which showed up as blank lines -->
+    <xsl:output method="html" html-version="5" indent="no" encoding="UTF-8"/>
 
     <xsl:template match="data">
         <xsl:apply-templates select="json-to-xml(.)"/>
@@ -127,19 +128,26 @@
                 <title><xsl:value-of select="if ($title != '') then $title else 'Oral History metadata'"/></title>
                 <style>
                     @page { size: A4; margin: 20mm 18mm; }
-                    body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 10pt; line-height: 1.4; color: #222; }
+                    body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 10pt; line-height: 1.3; color: #222; }
                     h1 { font-size: 20pt; margin: 0 0 4pt 0; }
-                    h2 { font-size: 13pt; margin: 18pt 0 6pt 0; border-bottom: 1px solid #999; padding-bottom: 2pt; }
-                    .subtitle { font-size: 12pt; color: #555; margin: 0 0 8pt 0; }
-                    .ref { font-size: 8pt; color: #777; margin-bottom: 12pt; }
-                    .desc { white-space: pre-wrap; margin: 8pt 0; }
-                    table { width: 100%; border-collapse: collapse; margin-bottom: 10pt; page-break-inside: avoid; }
-                    th, td { text-align: left; vertical-align: top; padding: 3pt 6pt; border-bottom: 1px solid #ddd; }
+                    h2 { font-size: 13pt; margin: 14pt 0 4pt 0; border-bottom: 1px solid #999; padding-bottom: 2pt;
+                         break-after: avoid; page-break-after: avoid; }
+                    .subtitle { font-size: 12pt; color: #555; margin: 0 0 6pt 0; }
+                    .ref { font-size: 8pt; color: #777; margin: 0 0 8pt 0; }
+                    .desc { white-space: pre-wrap; margin: 6pt 0; }
+                    table { width: 100%; border-collapse: collapse; margin-bottom: 8pt; }
+                    /* The big Details table may split across pages; rows themselves stay intact */
+                    tr { break-inside: avoid; page-break-inside: avoid; }
+                    /* Small per-person tables are kept together */
+                    table.group { break-inside: avoid; page-break-inside: avoid; }
+                    th, td { text-align: left; vertical-align: top; padding: 2pt 6pt; border-bottom: 1px solid #ddd; }
                     th { width: 32%; color: #444; font-weight: bold; }
                     table.files th { width: auto; background: #f0f0f0; }
-                    td { white-space: pre-wrap; word-wrap: break-word; }
+                    /* normal (not pre-wrap): preserved source whitespace caused the huge row heights */
+                    td { white-space: normal; word-wrap: break-word; }
+                    td div { margin: 0; padding: 0; }
                     .sub { color: #777; font-size: 8pt; }
-                    .footer { margin-top: 24pt; font-size: 8pt; color: #888; }
+                    .footer { margin-top: 18pt; font-size: 8pt; color: #888; }
                 </style>
             </head>
             <body>
@@ -150,9 +158,7 @@
                     <p class="subtitle"><xsl:value-of select="$subtitle"/></p>
                 </xsl:if>
                 <p class="ref">
-                    <xsl:text>Reference: </xsl:text>
-                    <xsl:value-of select="./string[@key = 'id']"/>
-                    <xsl:text> | Generated: </xsl:text>
+                    <xsl:text>Generated: </xsl:text>
                     <xsl:value-of select="format-dateTime(current-dateTime(), '[Y0001]-[M01]-[D01] [H01]:[m01]')"/>
                 </p>
                 <xsl:if test="$description != ''">
@@ -219,7 +225,7 @@
                                     mode="field"/>
                             </xsl:variable>
                             <xsl:if test="exists($itemRows/*)">
-                                <table>
+                                <table class="group">
                                     <xsl:copy-of select="$itemRows"/>
                                 </table>
                             </xsl:if>
@@ -240,7 +246,7 @@
                     select="//array[@key = 'file-metadata']/map[not(boolean[@key = 'private' and text() = 'true'])]"/>
                 <xsl:if test="exists($files)">
                     <h2>Files</h2>
-                    <table class="files">
+                    <table class="files group">
                         <tr>
                             <th>Name</th>
                             <th>Role</th>
